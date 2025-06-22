@@ -1,0 +1,125 @@
+<section>
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Formulario de Registro -->
+      <div class="col-md-6">
+        <div class="card bg-secondary p-4">
+          <h2 class="text-center">Registro</h2>
+          <form @submit.prevent="enviarRegistro">
+            <div class="mb-3">
+              <label class="form-label">Nombre:</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model.trim="formDataRegistro.nombre"
+                @input="formDirtyRegistro.nombre = true"
+                required
+              />
+              <div v-if="errorNombre.mostrar" class="text-yw-error">
+                {{ errorNombre.mensaje }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Apellido:</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model.trim="formDataRegistro.apellido"
+                @input="formDirtyRegistro.apellido = true"
+                required
+              />
+              <div v-if="errorApellido.mostrar" class="text-yw-error">
+                {{ errorApellido.mensaje }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                v-model.trim="formDataRegistro.email"
+                @input="formDirtyRegistro.email = true"
+                required
+              />
+              <div v-if="errorEmail.mostrar" class="text-yw-error">
+                {{ errorEmail.mensaje }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contraseña:</label>
+              <div class="text-yw-error">
+                <p>8 caracteres: 1 Mayus, 1 minus, 1 núm, 1 caracter esp.</p>
+              </div>
+              <input
+                type="password"
+                class="form-control"
+                v-model.trim="formDataRegistro.contrasenia"
+                @input="formDirtyRegistro.contrasenia = true"
+                required
+              />
+              <div v-if="errorContrasenia.mostrar" class="text-yw-error">
+                {{ errorContrasenia.mensaje }}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-warning w-100"
+              :disabled="validarBotonRegistro()"
+            >
+              Registrarse
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Formulario de Login -->
+      <div class="col-md-6">
+        <div class="card bg-secondary p-4">
+          <h2 class="text-center">¿Ya te registraste?</h2>
+          <form @submit.prevent="enviarLogin">
+            <div class="mb-3">
+              <label class="form-label">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                v-model.trim="formDataLogin.email"
+                @input="formDirtyLogin.email = true"
+                required
+              />
+              <div v-if="errorEmailLogin.mostrar" class="text-yw-error">
+                {{ errorEmailLogin.mensaje }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contraseña:</label>
+              <input
+                type="password"
+                class="form-control"
+                v-model.trim="formDataLogin.contrasenia"
+                @input="formDirtyLogin.contrasenia = true"
+                required
+              />
+              <div v-if="errorContraseniaLogin.mostrar" class="text-yw-error">
+                {{ errorContraseniaLogin.mensaje }}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-warning w-100"
+              :disabled="validarBotonLogin()"
+            >
+              Iniciar Sesión
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
