@@ -48,6 +48,16 @@ export default {
   }
 }
 </script>
-<style scoped>
 
+<style scoped>
+  .card-header {
+  background-color: #ffc107; 
+  color: #212529; 
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
 </style>
