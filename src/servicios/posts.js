@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const url = 'https://jsonplaceholder.typicode.com/posts/'
+const url = 'http://localhost:3306/posts' // URL del servidor de Express
 
 export const obtenerPosts = async () => {
     try {
