@@ -1,29 +1,50 @@
-# front-pelis
+# ORTFlix 🎬
 
-This template should help get you started developing with Vue 3 in Vite.
+ORTFlix es una aplicación web para la gestión y reserva de películas en un cine, desarrollada con Vue.js. Permite a los usuarios consultar la cartelera, reservar entradas y disfrutar de una experiencia moderna y ágil.
 
-## Recommended IDE Setup
+## Características
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Visualización de cartelera de películas.
+- Reservas online.
+- Login de usuarios.
+- Navegación SPA con Vue Router.
+- Diseño responsive y moderno.
+- Integración con Bootstrap Icons.
 
-## Customize configuration
+## Instalación
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+1. Clona el repositorio:
+   ```
+   git clone https://github.com/FDC248150/ProyectoTP2-PNT2 
+   ```
+2. Ingresa a la carpeta del proyecto:
+   ```
+   cd TP-Final-Cine
+   ```
+3. Instala las dependencias:
+   ```
+   npm install
+   ```
+4. Inicia el servidor de desarrollo:
+   ```
+   npm run dev
+   ```
 
-## Project Setup
+## Uso
 
-```sh
-npm install
-```
+Accede a la aplicación desde tu navegador en [http://localhost:5173](http://localhost:5173) (o el puerto que indique la terminal).
 
-### Compile and Hot-Reload for Development
+## Tecnologías
 
-```sh
-npm run dev
-```
+- [Vue.js 3](https://vuejs.org/)
+- [Vite](https://vitejs.dev/)
+- [Pinia](https://pinia.vuejs.org/)
+- [Bootstrap Icons](https://icons.getbootstrap.com/)
 
-### Compile and Minify for Production
+## Autores
 
-```sh
-npm run build
-```
+- Florencia Cullari, Rosario Begani y Tomás Rapetti.
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT.

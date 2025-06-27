@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { obtenerPosts } from '../servicios/posts'
+import { obtenerPosts } from '../Servicios/posts';
 
 export default {
   name: 'estructuraHttp',

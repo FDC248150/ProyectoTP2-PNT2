@@ -1,9 +1,15 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import './bootstrap'
+// Importaciones necesarias.
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import App from './App.vue';
+import router from './router';
+import './bootstrap';
 
-const app = createApp(App)
-app.use(router)
-app.mount('#app')
+// Crear la instancia de Pinia y montar la aplicación Vue.
+const pinia = createPinia();
+const app = createApp(App);
 
+// Configurar la aplicación Vue con Pinia y el router.
+app.use(pinia);
+app.use(router);
+app.mount('#app');
