@@ -60,13 +60,14 @@ export default
 <style scoped>
 .footer
 {
-    background: #212529;
-    color: #ffc107;
+    background: #23272b;
+    color: #fff3cd;
     padding: 24px 0 12px 0;
     text-align: center;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+    border-top: 3px solid #ffc107;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
     font-size: 1rem;
 }
 

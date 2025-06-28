@@ -66,6 +66,8 @@ export default
 <style scoped>
 .navbar
 {
+  background-color: #343a40 !important;
+  color: #fff3cd !important;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
@@ -88,6 +90,8 @@ export default
 {
   color: #ffc107 !important;
   font-weight: bold;
+  background: #23272b;
+  border-radius: 5px;
 }
 
 .navbar-user

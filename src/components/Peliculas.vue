@@ -9,6 +9,9 @@
         v-for="(pelicula, index) in peliculasEnCartelera" 
         :key="index" 
         class="peliculaItem fade-up"
+        @mouseenter="hoverIndex = index"
+        @mouseleave="hoverIndex = null"
+        :style="hoverIndex === index ? estiloHover : {}"
       >
         <img 
           class="imgAclamada" 
@@ -35,6 +38,9 @@
           v-for="(pelicula, index) in peliculasProximos" 
           :key="index" 
           class="peliculaItem fade-up"
+          @mouseenter="hoverIndex = 'proximo-' + index"
+          @mouseleave="hoverIndex = null"
+          :style="hoverIndex === ('proximo-' + index) ? estiloHover : {}"
         >
           <img 
             class="imgAclamada" 
@@ -62,6 +68,12 @@ export default {
   data() {
     return {
       mostrarProximos: false,
+      hoverIndex: null,
+      estiloHover: {
+        border: '2px solid #ffc107',
+        boxShadow: '0 0 16px 2px #ffc107',
+        background: '#23272b'
+      },
       peliculas: [
         {
           titulo: "The Shawshank Redemption",

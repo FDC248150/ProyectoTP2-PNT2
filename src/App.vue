@@ -1,12 +1,14 @@
 <template>
-  <div class="container-fluid mt-3">
-    <div class="card">
-      <Header />
-      <main class="card-body">
-        <Navbar />
-        <RouterView />
-      </main>
-      <Footer />
+  <div class="app-fondo-oscuro">
+    <div class="container-fluid mt-3">
+      <div class="card">
+        <Header />
+        <main class="card-body">
+          <Navbar />
+          <RouterView />
+        </main>
+        <Footer />
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +40,29 @@ export default
 </script>
 
 <style scoped>
+.app-fondo-oscuro
+{
+  background: #181a1b;
+  color: #fff;
+  min-height: 100vh;
+  width: 100vw;
+  padding-bottom: 2rem;
+}
+
+.card
+{
+  background: #23272b !important;
+  color: #fff !important;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+
+.card-body
+{
+  background: transparent !important;
+  color: #fff !important;
+}
+
 .card-header
 {
   background-color: #ffc107; 
