@@ -10,18 +10,28 @@
       
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!auth.usuarioLogueado">
             <RouterLink class="nav-link" to="/FormularioLogin">Inicia Sesión/Regístrate</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/Peliculas">Películas</RouterLink>
           </li>
+          <li class="nav-item" v-if="auth.usuarioLogueado">
+            <RouterLink class="nav-link" to="/Reservas">Reservas</RouterLink>
+          </li>
         </ul>
-        <!-- Espacio para usuario (placeholder) -->
         <div class="navbar-user d-flex align-items-center">
-          <!-- Acá iría el nombre del usuario, cuando esté logueado. -->
           <i class="bi bi-person-circle"></i>
-          <span class="ms-2">Invitado</span>
+          <span class="ms-2">
+            {{ auth.usuarioLogueado && auth.usuario ? auth.usuario.nombre : 'Invitado' }}
+          </span>
+          <button 
+            v-if="auth.usuarioLogueado" 
+            class="btn btn-link nav-link ms-2 p-0" 
+            @click="cerrarSesion"
+          >
+            Cerrar sesión
+          </button>
         </div>
       </div>
     </div>
@@ -29,9 +39,27 @@
 </template>
 
 <script>
+import { useAuthStore } from '../../Stores/authStore';
+import { useRouter } from 'vue-router';
+import { RouterLink } from 'vue-router';
+
 export default
 {
   name: 'Navbar',
+  components: { RouterLink },
+  setup()
+  {
+    const auth = useAuthStore();
+    const router = useRouter();
+
+    function cerrarSesion()
+    {
+      auth.logout();
+      router.push('/');
+    }
+
+    return { auth, cerrarSesion };
+  }
 }
 </script>
 

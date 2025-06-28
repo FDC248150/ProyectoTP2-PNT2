@@ -1,59 +1,46 @@
+<!--<script setup>
+  // Importamos la librería Axios para hacer peticiones HTTP
+</script>
+
 <template>
-  <div>
+
     <header>
-      <h1 class="display-1">Cartelera actual</h1>
+      <h1 class="display-1">Lista de Películas</h1>
     </header>
+ 
+  <div>
+    
+    <ul>          mysql 
+      <li v-for="pelicula in peliculas" :key="pelicula.id">
+        {{ pelicula.titulo }} - {{ pelicula.genero }}
+      </li>
+    </ul>
+  </div>-->
 
-    <div class="peliculas-container">
-      <div 
-        v-for="(pelicula, index) in peliculasEnCartelera" 
-        :key="index" 
-        class="peliculaItem fade-up"
-      >
-        <img 
-          class="imgAclamada" 
-          :src="pelicula.url_poster" 
-          :alt="pelicula.titulo" 
-          loading="lazy" 
-        />
-        <p class="tituloPelicula">{{ pelicula.titulo }}</p>
-      </div>
+  <!--descomentar lo de arriba, cuando se utilice la API_KEY responsiva desde el backend-->
+
+  <template>
+  <div class="peliculas-container">
+    <div 
+      v-for="(pelicula, index) in peliculas" 
+      :key="index" 
+      class="peliculaItem fade-up"
+    >
+      <img 
+        class="imgAclamada" 
+        :src="pelicula.url_poster" 
+        :alt="pelicula.titulo" 
+        loading="lazy" 
+      />
+      <p class="tituloPelicula">{{ pelicula.titulo }}</p>
     </div>
-
-    <!-- Botón para mostrar próximos lanzamientos -->
-    <div class="proximos-toggle" @click="mostrarProximos = !mostrarProximos">
-      <span class="toggle-label">
-        Próximos lanzamientos
-        <i :class="['bi', mostrarProximos ? 'bi-chevron-up' : 'bi-chevron-down']"></i>
-      </span>
-    </div>
-
-    <!-- Próximos lanzamientos desplegables -->
-    <transition name="fade">
-      <div v-if="mostrarProximos" class="peliculas-container mt-3">
-        <div 
-          v-for="(pelicula, index) in peliculasProximos" 
-          :key="index" 
-          class="peliculaItem fade-up"
-        >
-          <img 
-            class="imgAclamada" 
-            :src="pelicula.url_poster" 
-            :alt="pelicula.titulo" 
-            loading="lazy" 
-          />
-          <p class="tituloPelicula">{{ pelicula.titulo }}</p>
-        </div>
-      </div>
-    </transition>
-
-    <footer>
+  </div>
+  <footer>
       Derechos reservados 
       <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">
-        <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg" alt="Logo TMDB" />
+          <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg" alt="Logo TMDB" />
       </a>
-    </footer>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -61,7 +48,6 @@ export default {
   name: 'PeliculasList',
   data() {
     return {
-      mostrarProximos: false,
       peliculas: [
         {
           titulo: "The Shawshank Redemption",
@@ -134,18 +120,8 @@ export default {
         {
           titulo: "Seven Samurai",
           url_poster: "https://image.tmdb.org/t/p/w500//8OKmBV5BUFzmozIC3pPWKHy17kx.jpg"
-        }
+        },
       ]
-    }
-  },
-  computed: {
-    peliculasEnCartelera() {
-      const cantidad = Math.ceil(this.peliculas.length * 0.75);
-      return this.peliculas.slice(0, cantidad);
-    },
-    peliculasProximos() {
-      const cantidad = Math.ceil(this.peliculas.length * 0.75);
-      return this.peliculas.slice(cantidad);
     }
   }
 }
@@ -182,34 +158,9 @@ export default {
   color: #fff;
   font-size: 0.9rem;
 }
-
-.proximos-toggle {
-  margin: 2rem auto 0 auto;
-  width: fit-content;
-  cursor: pointer;
-  font-size: 1.2rem;
-  color: #fff;
-  background: #343a40;
-  padding: 0.5rem 1.5rem;
-  border-radius: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  user-select: none;
-  transition: background 0.2s;
-}
-.proximos-toggle:hover {
-  background: #495057;
-}
-.toggle-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.4s;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
 </style>
+
+    
+    
+
+
