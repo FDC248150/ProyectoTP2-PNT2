@@ -4,41 +4,70 @@
       <header class="card-header">
         <h1>{{ titulo }}</h1>
       </header>
+
       <p class="intro-text">
         {{ intro }}
       </p>
+
       <p class="info-text">
         {{ info }}
       </p>
+
       <p v-if="usuario" class="welcome-text">
-        ¡Bienvenido, {{ usuario }}!
+       <h3>¡Bienvenido, {{ usuario.nombre }}!</h3>
       </p>
-      <RouterLink to="/FormularioLogin" class="btn mt-5">
+
+      <!-- Si el usuario NO está logueado -->
+      <RouterLink
+        v-if="!usuarioLogueado"
+        to="/FormularioLogin"
+        class="btn mt-5"
+      >
         <i class="bi bi-ticket-perforated"></i> ¡Reserva tu función ahora!
+      </RouterLink>
+
+      <!-- Si el usuario SÍ está logueado -->
+      <RouterLink
+        v-else
+        to="/Peliculas"
+        class="btn mt-5"
+      >
+        <i class="bi bi-ticket-perforated"></i> ¡Elegí tu película!
       </RouterLink>
     </div>
   </section>
 </template>
 
 <script>
-export default
-{
+import { useAuthStore } from '@/Stores/authStore';
+
+export default {
   name: "Inicio",
-  data()
-  {
+  data() {
     return {
       titulo: "Bienvenidos a ORTFlix",
-      intro: "ORTFlix es tu plataforma para disfrutar del cine online de forma exclusiva. Aquí podrás reservar tu lugar en la sala virtual y se te asignará una función vía streaming para que vivas la experiencia cinematográfica desde donde estés.",
-      info: "¿Cómo funciona? Simplemente haz tu reserva, elige la película y la hora, y prepárate para disfrutar. Nuestra tecnología te asignará una sala virtual personalizada para que puedas ver la función en vivo, con la comodidad y seguridad de tu hogar.",
-      usuario: null // Cambiar esto por el nombre del usuario, cuando esté logueado.
+      intro:
+        "ORTFlix es tu plataforma para disfrutar del cine online de forma exclusiva. Aquí podrás reservar tu lugar en la sala virtual y se te asignará una función vía streaming para que vivas la experiencia cinematográfica desde donde estés.",
+      info:
+        "¿Cómo funciona? Simplemente haz tu reserva, elige la película y la hora, y prepárate para disfrutar. Nuestra tecnología te asignará una sala virtual personalizada para que puedas ver la función en vivo, con la comodidad y seguridad de tu hogar."
+    };
+  },
+  computed: {
+    authStore() {
+      return useAuthStore();
+    },
+    usuarioLogueado() {
+      return this.authStore.usuarioLogueado;
+    },
+    usuario() {
+      return this.authStore.usuario;
     }
   }
-}
+};
 </script>
 
 <style scoped>
-section
-{
+section {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,45 +82,40 @@ section
   padding: 2rem;
 }
 
-*
-{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container
-{
-  width: 90vw;         
-  max-width: 1200px;   
+.container {
+  width: 90vw;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem;  
+  padding: 3rem 2rem;
 }
 
-.card
-{
-  background-color: rgba(30, 30, 30, 0.85); 
+.card {
+  background-color: rgba(30, 30, 30, 0.85);
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
   padding: 3rem 4rem;
   color: #f5f5f5;
-  text-align: left;    
+  text-align: left;
   line-height: 1.6;
 }
 
-.card-header h1
-{
+.card-header h1 {
   font-weight: 900;
   color: #ffc107;
   margin-bottom: 2rem;
-  font-size: 3rem;     
-  text-align: center;  
+  font-size: 3rem;
+  text-align: center;
 }
 
-.intro-text
-{
-  font-size: 1.5rem;   
+.intro-text {
+  font-size: 1.5rem;
   margin-bottom: 1.5rem;
   color: #ddd;
   max-width: 900px;
@@ -99,8 +123,7 @@ section
   margin-right: auto;
 }
 
-.info-text
-{
+.info-text {
   font-size: 1.2rem;
   margin-bottom: 3rem;
   color: #ccc;
@@ -109,16 +132,14 @@ section
   margin-right: auto;
 }
 
-.welcome-text
-{
+.welcome-text {
   font-size: 1.1rem;
   color: #ffc107;
   text-align: center;
   margin-bottom: 1.5rem;
 }
 
-.btn
-{
+.btn {
   display: inline-block;
   font-weight: 700;
   color: #212529;
@@ -138,42 +159,36 @@ section
   max-width: 320px;
 }
 
-.btn:hover
-{
+.btn:hover {
   background-color: #e0a800;
   color: #fff;
   box-shadow: 0 6px 12px rgba(224, 168, 0, 0.8);
 }
 
-.mt-5
-{
+.mt-5 {
   margin-top: 3rem;
 }
 
 /* Responsive para móviles */
-@media (max-width: 767px)
-{
-  .card
-  {
+@media (max-width: 767px) {
+  .card {
     padding: 2rem 1.5rem;
     text-align: center;
   }
 
-  .intro-text, .info-text
-  {
+  .intro-text,
+  .info-text {
     font-size: 1.2rem;
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
   }
 
-  .card-header h1
-  {
+  .card-header h1 {
     font-size: 2.2rem;
   }
 
-  .btn
-  {
+  .btn {
     font-size: 1.1rem;
     padding: 0.85rem 1.5rem;
     max-width: 100%;

@@ -14,7 +14,7 @@
       <i class="bi bi-search"></i>
     </button>
 
-    <!-- Buscador con v-show y v-model -->
+    <!-- Buscador -->
     <input
       v-show="mostrarBuscador"
       v-model="busqueda"
@@ -23,6 +23,7 @@
       style="max-width: 400px; margin: 0 auto; display: block;"
     />
 
+    <!-- Mensajes de búsqueda -->
     <div
       v-if="busqueda && peliculasFiltradas.length === 0"
       class="alert mensaje-alerta mensaje-alerta-no"
@@ -36,23 +37,34 @@
       ¡La tenemos!
     </div>
 
-    <!-- Listado de películas filtradas -->
+    <!-- Películas en cartelera -->
     <div class="peliculas-container">
-      <div 
-        v-for="(pelicula, index) in peliculasFiltradas" 
-        :key="index" 
+      <div
+        v-for="(pelicula, index) in peliculasFiltradas"
+        :key="index"
         class="peliculaItem fade-up"
         @mouseenter="hoverIndex = index"
         @mouseleave="hoverIndex = null"
         :style="hoverIndex === index ? estiloHover : {}"
       >
-        <img 
-          class="imgAclamada" 
-          :src="pelicula.url_poster" 
-          :alt="pelicula.titulo" 
-          loading="lazy" 
+        <img
+          class="imgAclamada"
+          :src="pelicula.url_poster"
+          :alt="pelicula.titulo"
+          loading="lazy"
         />
         <p class="tituloPelicula">{{ pelicula.titulo }}</p>
+
+        <div v-if="usuarioLogueado" class="contador">
+          <button class="btn-contador" @click="restarButaca(index)">−</button>
+          <span class="contador-numero">{{ pelicula.cantButacas }}</span>
+          <button class="btn-contador" @click="sumarButaca(index)">+</button>
+          <button class="btn-reservar" @click="confirmarReserva(index)">Reservar</button>
+        </div>
+
+        <p v-else class="mensaje-alerta mensaje-alerta-dorado">
+          Iniciá sesión para reservar
+        </p>
       </div>
     </div>
 
@@ -70,22 +82,22 @@
       </span>
     </div>
 
-    <!-- Próximos lanzamientos desplegables -->
+    <!-- Próximos lanzamientos -->
     <transition name="fade">
       <div v-if="mostrarProximos" class="peliculas-container mt-3">
-        <div 
-          v-for="(pelicula, index) in peliculasProximos" 
-          :key="index" 
+        <div
+          v-for="(pelicula, index) in peliculasProximos"
+          :key="index"
           class="peliculaItem fade-up"
           @mouseenter="hoverIndex = 'proximo-' + index"
           @mouseleave="hoverIndex = null"
           :style="hoverIndex === ('proximo-' + index) ? estiloHover : {}"
         >
-          <img 
-            class="imgAclamada" 
-            :src="pelicula.url_poster" 
-            :alt="pelicula.titulo" 
-            loading="lazy" 
+          <img
+            class="imgAclamada"
+            :src="pelicula.url_poster"
+            :alt="pelicula.titulo"
+            loading="lazy"
           />
           <p class="tituloPelicula">{{ pelicula.titulo }}</p>
         </div>
@@ -95,125 +107,179 @@
 </template>
 
 <script>
-export default
-{
+import { useAuthStore } from '../Stores/authStore';
+import ServicioReservas from '../Servicios/servicioReserva';
+
+export default {
   name: 'Peliculas',
-  data()
-  {
+  data() {
     return {
       mostrarBuscador: false,
       busqueda: '',
       mostrarProximos: false,
       pulseProximos: false,
       hoverIndex: null,
-      estiloHover:
-      {
+      estiloHover: {
         border: '2px solid #ffc107',
         boxShadow: '0 0 16px 2px #ffc107',
         background: '#23272b'
       },
-      peliculas:
-      [
-        {
-          titulo: "The Shawshank Redemption",
-          url_poster: "https://image.tmdb.org/t/p/w500//9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg"
-        },
-        {
-          titulo: "The Godfather",
-          url_poster: "https://image.tmdb.org/t/p/w500//3bhkrj58Vtu7enYsRolD1fZdja1.jpg"
-        },
-        {
-          titulo: "The Godfather Part II",
-          url_poster: "https://image.tmdb.org/t/p/w500//hek3koDUyRQk7FIhPXsa6mT2Zc3.jpg"
-        },
-        {
-          titulo: "Schindler's List",
-          url_poster: "https://image.tmdb.org/t/p/w500//sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg"
-        },
-        {
-          titulo: "12 Angry Men",
-          url_poster: "https://image.tmdb.org/t/p/w500//ow3wq89wM8qd5X7hWKxiRfsFf9C.jpg"
-        },
-        {
-          titulo: "Spirited Away",
-          url_poster: "https://image.tmdb.org/t/p/w500//39wmItIWsg5sZMyRUHLkWBcuVCM.jpg"
-        },
-        {
-          titulo: "Dilwale Dulhania Le Jayenge",
-          url_poster: "https://image.tmdb.org/t/p/w500//lfRkUr7DYdHldAqi3PwdQGBRBPM.jpg"
-        },
-        {
-          titulo: "The Dark Knight",
-          url_poster: "https://image.tmdb.org/t/p/w500//qJ2tW6WMUDux911r6m7haRef0WH.jpg"
-        },
-        {
-          titulo: "Parasite",
-          url_poster: "https://image.tmdb.org/t/p/w500//7IiTTgloJzvGI1TAYymCfbfl3vT.jpg"
-        },
-        {
-          titulo: "The Green Mile",
-          url_poster: "https://image.tmdb.org/t/p/w500//8VG8fDNiy50H4FedGwdSVUPoaJe.jpg"
-        },
-        {
-          titulo: "Your Name.",
-          url_poster: "https://image.tmdb.org/t/p/w500//q719jXXEzOoYaps6babgKnONONX.jpg"
-        },
-        {
-          titulo: "Pulp Fiction",
-          url_poster: "https://image.tmdb.org/t/p/w500//d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg"
-        },
-        {
-          titulo: "The Lord of the Rings: The Return of the King",
-          url_poster: "https://image.tmdb.org/t/p/w500//rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg"
-        },
-        {
-          titulo: "Forrest Gump",
-          url_poster: "https://image.tmdb.org/t/p/w500//arw2vcBveWOVZr6pxd9XTd1TdQa.jpg"
-        },
-        {
-          titulo: "The Good, the Bad and the Ugly",
-          url_poster: "https://image.tmdb.org/t/p/w500//bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg"
-        },
-        {
-          titulo: "GoodFellas",
-          url_poster: "https://image.tmdb.org/t/p/w500//aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg"
-        },
-        {
-          titulo: "Grave of the Fireflies",
-          url_poster: "https://image.tmdb.org/t/p/w500//k9tv1rXZbOhH7eiCk378x61kNQ1.jpg"
-        },
-        {
-          titulo: "Seven Samurai",
-          url_poster: "https://image.tmdb.org/t/p/w500//8OKmBV5BUFzmozIC3pPWKHy17kx.jpg"
-        }
-      ]
-    }
+          peliculas: [
+      {
+        titulo: "The Shawshank Redemption",
+        url_poster: "https://image.tmdb.org/t/p/w500//9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "The Godfather",
+        url_poster: "https://image.tmdb.org/t/p/w500//3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "The Godfather Part II",
+        url_poster: "https://image.tmdb.org/t/p/w500//hek3koDUyRQk7FIhPXsa6mT2Zc3.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Schindler's List",
+        url_poster: "https://image.tmdb.org/t/p/w500//sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "12 Angry Men",
+        url_poster: "https://image.tmdb.org/t/p/w500//ow3wq89wM8qd5X7hWKxiRfsFf9C.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Spirited Away",
+        url_poster: "https://image.tmdb.org/t/p/w500//39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Dilwale Dulhania Le Jayenge",
+        url_poster: "https://image.tmdb.org/t/p/w500//lfRkUr7DYdHldAqi3PwdQGBRBPM.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "The Dark Knight",
+        url_poster: "https://image.tmdb.org/t/p/w500//qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Parasite",
+        url_poster: "https://image.tmdb.org/t/p/w500//7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "The Green Mile",
+        url_poster: "https://image.tmdb.org/t/p/w500//8VG8fDNiy50H4FedGwdSVUPoaJe.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Your Name.",
+        url_poster: "https://image.tmdb.org/t/p/w500//q719jXXEzOoYaps6babgKnONONX.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Pulp Fiction",
+        url_poster: "https://image.tmdb.org/t/p/w500//d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "The Lord of the Rings: The Return of the King",
+        url_poster: "https://image.tmdb.org/t/p/w500//rCzpDGLbOoPwLjy3OAm5NUPOTrC.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Forrest Gump",
+        url_poster: "https://image.tmdb.org/t/p/w500//arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "The Good, the Bad and the Ugly",
+        url_poster: "https://image.tmdb.org/t/p/w500//bX2xnavhMYjWDoZp1VM6VnU1xwe.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "GoodFellas",
+        url_poster: "https://image.tmdb.org/t/p/w500//aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Grave of the Fireflies",
+        url_poster: "https://image.tmdb.org/t/p/w500//k9tv1rXZbOhH7eiCk378x61kNQ1.jpg",
+        cantButacas: 0
+      },
+      {
+        titulo: "Seven Samurai",
+        url_poster: "https://image.tmdb.org/t/p/w500//8OKmBV5BUFzmozIC3pPWKHy17kx.jpg",
+        cantButacas: 0
+      }
+    ]
+    };
   },
-  computed:
-  {
-    peliculasFiltradas()
-    {
+  computed: {
+    authStore() {
+      return useAuthStore();
+    },
+    usuarioLogueado() {
+      return this.authStore.usuarioLogueado;
+    },
+    usuario() {
+      return this.authStore.usuario;
+    },
+    peliculasFiltradas() {
       return this.busqueda
         ? this.peliculasEnCartelera.filter(p =>
             p.titulo.toLowerCase().includes(this.busqueda.toLowerCase())
           )
         : this.peliculasEnCartelera;
     },
-
-    peliculasEnCartelera()
-    {
+    peliculasEnCartelera() {
       const cantidad = Math.ceil(this.peliculas.length * 0.75);
       return this.peliculas.slice(0, cantidad);
     },
-
-    peliculasProximos()
-    {
+    peliculasProximos() {
       const cantidad = Math.ceil(this.peliculas.length * 0.75);
       return this.peliculas.slice(cantidad);
     }
+  },
+  methods: {
+    sumarButaca(index) {
+      this.peliculas[index].cantButacas++;
+    },
+    restarButaca(index) {
+      if (this.peliculas[index].cantButacas > 0) {
+        this.peliculas[index].cantButacas--;
+      }
+    },
+    generarFuncion() {
+      return Math.floor(100000 + Math.random() * 900000);
+    },
+    async confirmarReserva(index) {
+      const pelicula = this.peliculas[index];
+      if (pelicula.cantButacas === 0) return;
+
+      const nuevaReserva = {
+        usuarioId: this.usuario.id,
+        funcion: this.generarFuncion(),
+        tituloPelicula: pelicula.titulo,
+        cantButacas: pelicula.cantButacas
+      };
+
+      try {
+        const servicio = new ServicioReservas();
+        await servicio.post(nuevaReserva);
+        alert(`Reserva confirmada para "${pelicula.titulo}"`);
+        this.peliculas[index].cantButacas = 0;
+      } catch (error) {
+        console.error("Error al guardar reserva:", error);
+      }
+    }
   }
-}
+};
 </script>
+
 
 <style scoped>
 .peliculas-container
@@ -306,11 +372,16 @@ export default
   box-shadow: 0 2px 8px rgba(0,0,0,0.10);
 }
 
-.mensaje-alerta-no
-{
-  background: #dc3545 !important;
-  color: #fff !important;
-  border: 2px solid #b02a37;
+.mensaje-alerta-dorado {
+  background: #23272b;
+  color: #ffc107;
+  border: 1px solid #ffc107;
+  font-size: 0.85rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 12px;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(255, 193, 7, 0.15);
 }
 
 .mensaje-alerta-si
@@ -344,4 +415,52 @@ export default
   letter-spacing: 2px;
   text-align: center;
 }
+.contador {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.btn-contador {
+  background-color: #343a40;
+  color: #ffc107;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-contador:hover {
+  background-color: #495057;
+}
+
+.contador-numero {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 0 0.5rem;
+}
+
+.btn-reservar {
+  background-color: #ffc107;
+  color: #212529;
+  border: none;
+  border-radius: 6px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-reservar:hover {
+  background-color: #e0a800;
+}
+
 </style>
