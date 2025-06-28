@@ -24,6 +24,9 @@ import Peliculas from './components/Peliculas.vue';
 // Componentes de archivo compuesto.
 import FormularioLogin from './components/FormularioLogin/Index.vue';
 
+import { onMounted } from 'vue'
+import ServicioUsuarios from '@/Servicios/servicioUsuario'
+
 export default
 {
   name: 'App',
@@ -35,6 +38,15 @@ export default
     Peliculas,
     Footer,
     Header
+    },
+
+    setup() {
+    const servicioUsuarios = new ServicioUsuarios()
+
+    onMounted(async () => {
+      const usuarios = await servicioUsuarios.getAll()
+      console.log('Usuarios desde MockAPI:', usuarios)
+    })
   }
 }
 </script>

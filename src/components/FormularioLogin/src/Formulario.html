@@ -56,12 +56,12 @@
               <input
                 type="password"
                 class="form-control"
-                v-model.trim="formDataRegistro.contrasenia"
-                @input="formDirtyRegistro.contrasenia = true"
+                v-model.trim="formDataRegistro.password"
+                @input="formDirtyRegistro.password = true"
                 required
               />
-              <div v-if="errorContrasenia.mostrar" class="text-yw-error">
-                {{ errorContrasenia.mensaje }}
+              <div v-if="errorPassword.mostrar" class="text-yw-error">
+                {{ errorPassword.mensaje }}
               </div>
             </div>
 
@@ -72,6 +72,10 @@
             >
               Registrarse
             </button>
+
+            <div v-if="mensajeErrorRegistro" class="alert alert-danger mt-2">
+              {{ mensajeErrorRegistro }}
+            </div>
           </form>
         </div>
       </div>
@@ -100,12 +104,12 @@
               <input
                 type="password"
                 class="form-control"
-                v-model.trim="formDataLogin.contrasenia"
-                @input="formDirtyLogin.contrasenia = true"
+                v-model.trim="formDataLogin.password"
+                @input="formDirtyLogin.password = true"
                 required
               />
-              <div v-if="errorContraseniaLogin.mostrar" class="text-yw-error">
-                {{ errorContraseniaLogin.mensaje }}
+              <div v-if="errorPasswordLogin.mostrar" class="text-yw-error">
+                {{ errorPasswordLogin.mensaje }}
               </div>
             </div>
 
@@ -116,10 +120,13 @@
             >
               Iniciar Sesión
             </button>
+
+            <div v-if="mensajeErrorLogin" class="alert alert-danger mt-2">
+              {{ mensajeErrorLogin }}
+            </div>
           </form>
         </div>
       </div>
     </div>
   </div>
 </section>
-

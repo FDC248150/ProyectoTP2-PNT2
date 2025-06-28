@@ -54,8 +54,12 @@ export default
 
     function cerrarSesion()
     {
-      auth.logout();
-      router.push('/');
+      if (confirm('¿Desea cerrar sesión?'))
+      {
+        auth.logout();
+        router.push('/');
+      }
+      // Si el usuario cancela, no hace nada.
     }
 
     return { auth, cerrarSesion };

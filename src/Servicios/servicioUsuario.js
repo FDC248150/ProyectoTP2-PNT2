@@ -8,7 +8,7 @@ class ServicioUsuarios
 
     constructor()
     {
-        this.#url = 'http://localhost:3060/api/usuarios/';
+        this.#url = 'https://686021f7c55df67558a03914.mockapi.io/usuario/';
     }
 
     getAll = async () =>
