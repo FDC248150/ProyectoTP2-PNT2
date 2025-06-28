@@ -1,12 +1,45 @@
 <template>
   <div>
     <header>
-      <h1 class="display-1">Cartelera actual</h1>
+      <h1 class="cartelera-titulo">Cartelera</h1>
     </header>
 
+    <!-- Botón de lupa para mostrar/ocultar buscador -->
+    <button
+      class="btn btn-outline-warning mb-3"
+      @click="mostrarBuscador = !mostrarBuscador"
+      style="display: block; margin: 0 auto; font-size: 1.5rem; padding: 0.4rem 1rem;"
+      aria-label="Buscar"
+    >
+      <i class="bi bi-search"></i>
+    </button>
+
+    <!-- Buscador con v-show y v-model -->
+    <input
+      v-show="mostrarBuscador"
+      v-model="busqueda"
+      class="form-control mb-4 animate__animated animate__fadeIn"
+      placeholder="Buscar película por título"
+      style="max-width: 400px; margin: 0 auto; display: block;"
+    />
+
+    <div
+      v-if="busqueda && peliculasFiltradas.length === 0"
+      class="alert mensaje-alerta mensaje-alerta-no"
+    >
+      No tenemos esta película.
+    </div>
+    <div
+      v-else-if="busqueda && peliculasFiltradas.length > 0"
+      class="alert mensaje-alerta mensaje-alerta-si"
+    >
+      ¡La tenemos!
+    </div>
+
+    <!-- Listado de películas filtradas -->
     <div class="peliculas-container">
       <div 
-        v-for="(pelicula, index) in peliculasEnCartelera" 
+        v-for="(pelicula, index) in peliculasFiltradas" 
         :key="index" 
         class="peliculaItem fade-up"
         @mouseenter="hoverIndex = index"
@@ -24,7 +57,13 @@
     </div>
 
     <!-- Botón para mostrar próximos lanzamientos -->
-    <div class="proximos-toggle" @click="mostrarProximos = !mostrarProximos">
+    <div
+      class="proximos-toggle animate__animated"
+      :class="{ 'animate__pulse': pulseProximos }"
+      @mouseenter="pulseProximos = true"
+      @mouseleave="pulseProximos = false"
+      @click="mostrarProximos = !mostrarProximos"
+    >
       <span class="toggle-label">
         Próximos lanzamientos
         <i :class="['bi', mostrarProximos ? 'bi-chevron-up' : 'bi-chevron-down']"></i>
@@ -52,29 +91,29 @@
         </div>
       </div>
     </transition>
-
-    <footer>
-      Derechos reservados 
-      <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">
-        <img src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg" alt="Logo TMDB" />
-      </a>
-    </footer>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'PeliculasList',
-  data() {
+export default
+{
+  name: 'Peliculas',
+  data()
+  {
     return {
+      mostrarBuscador: false,
+      busqueda: '',
       mostrarProximos: false,
+      pulseProximos: false,
       hoverIndex: null,
-      estiloHover: {
+      estiloHover:
+      {
         border: '2px solid #ffc107',
         boxShadow: '0 0 16px 2px #ffc107',
         background: '#23272b'
       },
-      peliculas: [
+      peliculas:
+      [
         {
           titulo: "The Shawshank Redemption",
           url_poster: "https://image.tmdb.org/t/p/w500//9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg"
@@ -150,12 +189,25 @@ export default {
       ]
     }
   },
-  computed: {
-    peliculasEnCartelera() {
+  computed:
+  {
+    peliculasFiltradas()
+    {
+      return this.busqueda
+        ? this.peliculasEnCartelera.filter(p =>
+            p.titulo.toLowerCase().includes(this.busqueda.toLowerCase())
+          )
+        : this.peliculasEnCartelera;
+    },
+
+    peliculasEnCartelera()
+    {
       const cantidad = Math.ceil(this.peliculas.length * 0.75);
       return this.peliculas.slice(0, cantidad);
     },
-    peliculasProximos() {
+
+    peliculasProximos()
+    {
       const cantidad = Math.ceil(this.peliculas.length * 0.75);
       return this.peliculas.slice(cantidad);
     }
@@ -164,64 +216,132 @@ export default {
 </script>
 
 <style scoped>
-.peliculas-container {
+.peliculas-container
+{
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
 }
 
-.peliculaItem {
+.peliculaItem
+{
   width: 150px;
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
 
-.peliculaItem:hover {
+.peliculaItem:hover
+{
   transform: scale(1.05);
 }
 
-.imgAclamada {
+.imgAclamada
+{
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-.tituloPelicula {
+.tituloPelicula
+{
   margin-top: 0.5rem;
   font-weight: 600;
   color: #fff;
   font-size: 0.9rem;
 }
 
-.proximos-toggle {
-  margin: 2rem auto 0 auto;
+.proximos-toggle
+{
+  margin: 2.5rem auto 0 auto;
   width: fit-content;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #fff;
   background: #343a40;
-  padding: 0.5rem 1.5rem;
-  border-radius: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  padding: 1rem 3rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
   display: flex;
   align-items: center;
   user-select: none;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
-.proximos-toggle:hover {
+
+.proximos-toggle:hover
+{
   background: #495057;
+  transform: scale(1.06);
 }
-.toggle-label {
+
+.toggle-label
+{
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-.fade-enter-active, .fade-leave-active {
+
+.fade-enter-active, .fade-leave-active
+{
   transition: opacity 0.4s;
 }
-.fade-enter-from, .fade-leave-to {
+
+.fade-enter-from, .fade-leave-to
+{
   opacity: 0;
+}
+
+.mensaje-alerta
+{
+  display: inline-block;
+  margin: 0 auto 1.5rem auto;
+  padding: 0.7rem 2rem;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+}
+
+.mensaje-alerta-no
+{
+  background: #dc3545 !important;
+  color: #fff !important;
+  border: 2px solid #b02a37;
+}
+
+.mensaje-alerta-si
+{
+  background: #198754 !important;
+  color: #fff !important;
+  border: 2px solid #157347;
+}
+
+.mensaje-alerta
+{
+  display: block;
+  width: fit-content;
+  max-width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cartelera-titulo
+{
+  background: #23272b;
+  color: #ffc107;
+  border-left: 8px solid #ffc107;
+  border-radius: 0 18px 18px 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  padding: 0.7rem 2.5rem;
+  margin: 2rem auto 2.5rem auto;
+  width: fit-content;
+  font-size: 2.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-align: center;
 }
 </style>
