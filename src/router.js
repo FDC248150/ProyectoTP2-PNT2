@@ -16,13 +16,14 @@ const routes =
     { path: '/Peliculas', component: Peliculas },
     { path: '/FormularioLogin', component: FormularioLogin },
     { path: '/Inicio', component: Inicio },
-    
-    // Definición de la ruta protegida para Reservas.
-    { 
+   
+
+    // Definición de la ruta protegida para Reservas. 
+     { 
         path: '/Reservas', 
         component: Reservas,
         meta: { requiereAuth: true } // Solo usuarios logueados
-    },
+    }, 
 
     // Definición de las rutas no existentes (por default).
     { path: '/:pathMatch(.*)*', redirect: '/Inicio' },

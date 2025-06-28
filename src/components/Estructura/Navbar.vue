@@ -16,9 +16,11 @@
           <li class="nav-item">
             <RouterLink class="nav-link" to="/Peliculas">Películas</RouterLink>
           </li>
+          
           <li class="nav-item" v-if="auth.usuarioLogueado">
             <RouterLink class="nav-link" to="/Reservas">Reservas</RouterLink>
           </li>
+          
         </ul>
         <div class="navbar-user d-flex align-items-center">
           <i class="bi bi-person-circle"></i>
@@ -35,6 +37,8 @@
         </div>
       </div>
     </div>
+    
+    
   </nav>
 </template>
 
