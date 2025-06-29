@@ -1,0 +1,140 @@
+<section>
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Formulario de Registro -->
+      <div class="col-md-6">
+        <div class="card bg-secondary p-4">
+          <h2 class="text-center">Registro</h2>
+          <form @submit.prevent="enviarRegistro">
+            <div class="mb-3">
+              <label class="form-label">Nombre:</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model.trim="formDataRegistro.nombre"
+                @input="formDirtyRegistro.nombre = true"
+                required
+              />
+              <div v-if="errorNombre.mostrar" class="text-yw-error">
+                {{ errorNombre.mensaje }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Apellido:</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model.trim="formDataRegistro.apellido"
+                @input="formDirtyRegistro.apellido = true"
+                required
+              />
+              <div v-if="errorApellido.mostrar" class="text-yw-error">
+                {{ errorApellido.mensaje }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                v-model.trim="formDataRegistro.email"
+                @input="formDirtyRegistro.email = true"
+                required
+              />
+              <div v-if="errorEmail.mostrar" class="text-yw-error">
+                {{ errorEmail.mensaje }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contraseña:</label>
+              <input
+                type="password"
+                class="form-control"
+                v-model.trim="formDataRegistro.password"
+                @input="formDirtyRegistro.password = true"
+                @focus="mostrarCondiciones = true"
+                @blur="mostrarCondiciones = false"
+                required
+              />
+              <div v-if="mostrarCondiciones" class="condiciones-cartel">
+                <ul>
+                  <li>Debe tener al menos 8 caracteres.</li>
+                  <li>Debe incluir al menos una letra mayúscula.</li>
+                  <li>Debe incluir al menos una letra minúscula.</li>
+                  <li>Debe incluir al menos un número.</li>
+                  <li>Debe incluir al menos un carácter especial.</li>
+                </ul>
+              </div>
+              <div v-if="errorPassword.mostrar" class="text-yw-error">
+                {{ errorPassword.mensaje }}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-warning w-100"
+              :disabled="validarBotonRegistro()"
+            >
+              Registrarse
+            </button>
+
+            <div v-if="mensajeErrorRegistro" class="alert alert-danger mt-2">
+              {{ mensajeErrorRegistro }}
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Formulario de Login -->
+      <div class="col-md-6">
+        <div class="card bg-secondary p-4">
+          <h2 class="text-center">¿Ya te registraste?</h2>
+          <form @submit.prevent="enviarLogin">
+            <div class="mb-3">
+              <label class="form-label">Email:</label>
+              <input
+                type="email"
+                class="form-control"
+                v-model.trim="formDataLogin.email"
+                @input="formDirtyLogin.email = true"
+                required
+              />
+              <div v-if="errorEmailLogin.mostrar" class="text-yw-error">
+                {{ errorEmailLogin.mensaje }}
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contraseña:</label>
+              <input
+                type="password"
+                class="form-control"
+                v-model.trim="formDataLogin.password"
+                @input="formDirtyLogin.password = true"
+                required
+              />
+              <div v-if="errorPasswordLogin.mostrar" class="text-yw-error">
+                {{ errorPasswordLogin.mensaje }}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-warning w-100"
+              :disabled="validarBotonLogin()"
+            >
+              Iniciar sesión
+            </button>
+
+            <div v-if="mensajeErrorLogin" class="alert alert-danger mt-2">
+              {{ mensajeErrorLogin }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

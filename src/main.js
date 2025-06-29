@@ -1,9 +1,15 @@
-import './assets/main.css'
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css' //(esto importa el css)
+// Importaciones necesarias.
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import App from './App.vue';
+import router from './router';
+import './bootstrap';
 
+// Crear la instancia de Pinia y montar la aplicación Vue.
+const pinia = createPinia();
+const app = createApp(App);
 
-import { createApp } from 'vue'
-import App from './App.vue'
-
-createApp(App).mount('#app')
+// Configurar la aplicación Vue con Pinia y el router.
+app.use(pinia);
+app.use(router);
+app.mount('#app');
