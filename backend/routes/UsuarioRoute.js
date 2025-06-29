@@ -11,9 +11,7 @@ import { authenticate } from "../middleware/authenticate.js";
 import { authorize } from "../middleware/authorize.js";
 
 const router = express.Router();
-router.post("/test", (req, res) => {
-  res.json({ message: "POST /test works" });
-});
+
 router.post("/login", loginUsuario);
 router.get("/", authenticate, authorize("admin"), getAllUsuarios);
 router.get("/:id", authenticate, authorize("admin"), getUsuarioById);

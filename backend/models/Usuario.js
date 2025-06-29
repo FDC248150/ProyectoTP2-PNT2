@@ -35,7 +35,7 @@ User.init(
     roleId: {
       type: DT.INTEGER(),
       allowNull: false,
-      defaultValue: 2, // 1=admin, 2=user (por ejemplo)
+      defaultValue: 2, // 1=admin, 2=user 
       references: {
         model: Role,
         key: "id",
