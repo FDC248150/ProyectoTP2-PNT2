@@ -8,7 +8,7 @@ class ServicioReservas
 
     constructor()
     {
-        this.#url = 'http://localhost:3060/api/reservas/';
+        this.#url = 'https://686021f7c55df67558a03914.mockapi.io/reserva';
     }
 
     getAll = async () =>

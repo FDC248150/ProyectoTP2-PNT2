@@ -14,7 +14,7 @@
               <h5 class="card-title text-warning">{{ reserva.tituloPelicula }}</h5>
               <p class="card-text">
                 <strong>Función:</strong> {{ reserva.funcion }}<br />
-                <strong>Butacas:</strong> {{ reserva.cantButacas }}
+                <strong>Butacas:</strong> {{ reserva.cantidadButacas }}
               </p>
             </div>
           </div>
@@ -32,62 +32,79 @@
 import ServicioReservas from '../Servicios/servicioReserva';
 import { useAuthStore } from '../Stores/authStore';
 
-export default {
+export default
+{
   name: 'Reservas',
-  data() {
+  data()
+  {
     return {
       reservas: [],
-      servicio: null,
       cancelado: false
     };
   },
-  async mounted() {
-    this.servicio = new ServicioReservas();
+
+  // Life Cycle Hooks.
+  async mounted()
+  {
+    const servicio = new ServicioReservas();
     const authStore = useAuthStore();
 
-    if (authStore.usuarioLogueado && authStore.usuario) {
-      try {
-        const reservas = await this.servicio.getReservasPorUsuario(authStore.usuario.id);
-        if (!this.cancelado) {
-          this.reservas = reservas;
+    if (authStore.usuarioLogueado && authStore.usuario)
+    {
+      try
+      {
+        const todasLasReservas = await servicio.getAll();
+        // Filtra solo las reservas del usuario logueado.
+        if (!this.cancelado)
+        {
+          this.reservas = todasLasReservas.filter(r => r.usuarioId === authStore.usuario.id);
         }
-      } catch (error) {
+      }
+      catch (error)
+      {
         console.error("Error al cargar reservas:", error);
       }
     }
   },
-  unmounted() {
+  
+  unmounted()
+  {
     this.cancelado = true;
   }
 };
 </script>
 
 <style scoped>
-.app-fondo-oscuro {
+.app-fondo-oscuro
+{
   background: #181a1b;
   color: #fff;
   min-height: 100vh;
   padding-bottom: 2rem;
 }
 
-.reserva-card {
+.reserva-card
+{
   background: #23272b;
   color: #fff;
   border-radius: 12px;
   transition: transform 0.2s ease;
 }
 
-.reserva-card:hover {
+.reserva-card:hover
+{
   transform: scale(1.02);
   box-shadow: 0 4px 16px rgba(255, 193, 7, 0.3);
 }
 
-.card-title {
+.card-title
+{
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-.card-text {
+.card-text
+{
   font-size: 0.95rem;
 }
 </style>
