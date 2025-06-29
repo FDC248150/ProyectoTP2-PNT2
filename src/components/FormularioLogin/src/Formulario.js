@@ -17,6 +17,7 @@ export default
       formDirtyLogin: this.getInicialDirtyLogin(),
       mensajeErrorRegistro: '',
       mensajeErrorLogin: '',
+      mostrarCondiciones: false
     };
   },
   methods:

@@ -50,16 +50,24 @@
 
             <div class="mb-3">
               <label class="form-label">Contraseña:</label>
-              <div class="text-yw-error">
-                <p>8 caracteres: 1 Mayus, 1 minus, 1 núm, 1 caracter esp.</p>
-              </div>
               <input
                 type="password"
                 class="form-control"
                 v-model.trim="formDataRegistro.password"
                 @input="formDirtyRegistro.password = true"
+                @focus="mostrarCondiciones = true"
+                @blur="mostrarCondiciones = false"
                 required
               />
+              <div v-if="mostrarCondiciones" class="condiciones-cartel">
+                <ul>
+                  <li>Debe tener al menos 8 caracteres.</li>
+                  <li>Debe incluir al menos una letra mayúscula.</li>
+                  <li>Debe incluir al menos una letra minúscula.</li>
+                  <li>Debe incluir al menos un número.</li>
+                  <li>Debe incluir al menos un carácter especial.</li>
+                </ul>
+              </div>
               <div v-if="errorPassword.mostrar" class="text-yw-error">
                 {{ errorPassword.mensaje }}
               </div>
@@ -118,7 +126,7 @@
               class="btn btn-warning w-100"
               :disabled="validarBotonLogin()"
             >
-              Iniciar Sesión
+              Iniciar sesión
             </button>
 
             <div v-if="mensajeErrorLogin" class="alert alert-danger mt-2">

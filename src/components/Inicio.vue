@@ -15,15 +15,15 @@
         {{ info }}
       </p>
 
-      <!-- Si el usuario NO está logueado -->
-      <RouterLink
+      <!-- Si el usuario NO está logueado // Ruteo de componente por código. -->
+      <button
         v-if="!usuarioLogueado"
-        to="/FormularioLogin"
+        @click="redirigir('/FormularioLogin')"
         class="btn mt-5"
       >
         <i class="bi bi-ticket-perforated"></i>
         ¡Reserva tu lugar ahora!
-      </RouterLink>
+      </button>
 
       <!-- Si el usuario SÍ está logueado -->
       <RouterLink
@@ -53,6 +53,13 @@ export default
       info:
         "¿Cómo funciona? Simplemente elige la película, la cantidad de lugares a reservar, haz la reserva y ¡prepárate para disfrutar!. Nuestra tecnología te asignará una sala virtual personalizada para que puedas ver la función en vivo, con la comodidad y seguridad de tu hogar."
     };
+  },
+  methods:
+  {
+    redirigir(ruta)
+    {
+      this.$router.push(ruta);
+    }
   },
   computed:
   {

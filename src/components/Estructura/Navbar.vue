@@ -11,7 +11,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item" v-if="!auth.usuarioLogueado">
-            <RouterLink class="nav-link" to="/FormularioLogin">Inicia Sesión/Regístrate</RouterLink>
+            <RouterLink class="nav-link" to="/FormularioLogin">Inicia sesión/Regístrate</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/Peliculas">Películas</RouterLink>
