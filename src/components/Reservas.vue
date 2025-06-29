@@ -12,15 +12,24 @@
           <div v-if="reservaEditando === reserva.id" class="card h-100 shadow-sm reserva-card">
             <div class="card-body">
               <div class="mb-2">
-                <label class="form-label mb-1">Película:</label>
-                <input v-model="editForm.tituloPelicula" class="form-control form-control-sm" />
+                 <label class="form-label mb-1">Película:</label>
+                  <select v-model="editForm.tituloPelicula" class="form-select form-select-sm">
+                      <option disabled value="">Seleccioná una película</option>
+                      <option v-for="pelicula in peliculas"
+                        :key="pelicula.titulo"
+                        :value="pelicula.titulo">
+                          {{ pelicula.titulo }}
+                      </option>
+
+                  </select>
               </div>
+
               <div class="mb-2">
                 <label class="form-label mb-1">Función:</label>
                 <input
                   type="number"
-                  min="1"
-                  max="50"
+                  min="100000"
+                  max="999999"
                   v-model.number="editForm.funcion"
                   class="form-control form-control-sm"
                 />
@@ -58,28 +67,32 @@
 </template>
 
 <script>
+import peliculasDisponibles from '../data/peliculasDisponibles';
 import ServicioReservas from '../Servicios/servicioReserva';
 import { useAuthStore } from '../Stores/authStore';
+import Peliculas from './Peliculas.vue';
 import ReservaCard from './ReservaCard.vue';
+
 
 export default
 {
   name: 'Reservas',
   components: { ReservaCard },
-  data()
-  {
+   data() {
     return {
       reservas: [],
       cancelado: false,
       reservaEditando: null,
-      editForm:
-      {
+      editForm: {
         funcion: '',
-        cantidadButacas: 1
-      }
+        cantidadButacas: 1,
+        tituloPelicula: ''
+      },
+      peliculas: peliculasDisponibles
     };
   },
-  methods:
+  methods: 
+
   {
     editarReserva(reserva)
     {
@@ -101,12 +114,12 @@ export default
     {
       // Validación de función.
       if (
-        this.editForm.funcion < 1 ||
-        this.editForm.funcion > 50 ||
+        this.editForm.funcion < 100000 ||
+        this.editForm.funcion > 999999 ||
         isNaN(this.editForm.funcion)
       )
       {
-        alert("El número de función debe estar entre 1 y 50.");
+        alert("El número de función debe estar entre 100000 y 999999.");
         return;
       }
 
