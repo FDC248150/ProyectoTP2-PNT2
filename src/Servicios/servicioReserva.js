@@ -41,7 +41,7 @@ class ServicioReservas
     {
         try
         {
-            const { data:reservaActualizada } = await axios.put(`${this.#url}${id}`, reserva);
+            const { data:reservaActualizada } = await axios.put(`${this.#url}/${id}`, reserva);
             return reservaActualizada;
         }
         catch (error)
@@ -54,7 +54,7 @@ class ServicioReservas
     {
         try
         {
-            const { data:reservaEliminada } = await axios.delete(`${this.#url}${id}`);
+            const { data:reservaEliminada } = await axios.delete(`${this.#url}/${id}`);
             return reservaEliminada;
         }
         catch (error)

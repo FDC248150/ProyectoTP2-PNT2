@@ -41,7 +41,7 @@ class ServicioUsuarios
     {
         try
         {
-            const { data:usuarioActualizado } = await axios.put(`${this.#url}${id}`, usuario);
+            const { data:usuarioActualizado } = await axios.put(`${this.#url}/${id}`, usuario);
             return usuarioActualizado;
         }
         catch (error)
@@ -54,7 +54,7 @@ class ServicioUsuarios
     {
         try
         {
-            const { data:usuarioEliminado } = await axios.delete(`${this.#url}${id}`);
+            const { data:usuarioEliminado } = await axios.delete(`${this.#url}/${id}`);
             return usuarioEliminado;
         }
         catch (error)

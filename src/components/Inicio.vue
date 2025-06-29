@@ -31,7 +31,8 @@
         to="/Peliculas"
         class="btn mt-5"
       >
-        <i class="bi bi-ticket-perforated"></i> ¡Elegí tu película!
+        <i class="bi bi-ticket-perforated"></i>
+        ¡Elegí tu película!
       </RouterLink>
     </div>
   </section>
