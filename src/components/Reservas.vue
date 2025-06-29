@@ -9,63 +9,44 @@
           :key="reserva.id"
           class="col-md-6 col-lg-4"
         >
-          <div class="card h-100 shadow-sm reserva-card">
-            <div class="card-body d-flex justify-content-between align-items-center">
-              <div>
-                <h5 class="card-title text-warning">{{ reserva.tituloPelicula }}</h5>
-                <p class="card-text mb-0">
-                  <strong>Función:</strong> {{ reserva.funcion }}<br />
-                  <strong>Butacas:</strong> {{ reserva.cantidadButacas }}
-                </p>
+          <div v-if="reservaEditando === reserva.id" class="card h-100 shadow-sm reserva-card">
+            <div class="card-body">
+              <div class="mb-2">
+                <label class="form-label mb-1">Película:</label>
+                <input v-model="editForm.tituloPelicula" class="form-control form-control-sm" />
               </div>
-              <div v-if="reservaEditando === reserva.id" class="w-100">
-                <div class="mb-2">
-                  <label class="form-label mb-1">Película:</label>
-                  <input v-model="editForm.tituloPelicula" class="form-control form-control-sm" />
-                </div>
-                <div class="mb-2">
-                  <label class="form-label mb-1">Función:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="50"
-                    v-model.number="editForm.funcion"
-                    class="form-control form-control-sm"
-                  />
-                </div>
-                <div class="mb-2">
-                  <label class="form-label mb-1">Butacas:</label>
-                  <input
-                    type="number"
-                    min="1"
-                    max="8"
-                    v-model.number="editForm.cantidadButacas"
-                    class="form-control form-control-sm"
-                  />
-                </div>
-                <div class="d-flex gap-2 justify-content-end">
-                  <button class="btn btn-success btn-sm" @click="guardarEdicion(reserva.id)">Guardar</button>
-                  <button class="btn btn-secondary btn-sm" @click="cancelarEdicion">Cancelar</button>
-                </div>
+              <div class="mb-2">
+                <label class="form-label mb-1">Función:</label>
+                <input
+                  type="number"
+                  min="1"
+                  max="50"
+                  v-model.number="editForm.funcion"
+                  class="form-control form-control-sm"
+                />
               </div>
-              <div v-else class="d-flex flex-column align-items-end ms-3">
-                <button
-                  class="btn btn-warning btn-editar mb-2"
-                  @click="editarReserva(reserva)"
-                >
-                  <i class="bi bi-pencil"></i>
-                  Editar
-                </button>
-                <button
-                  class="btn btn-danger btn-borrar"
-                  @click="borrarReserva(reserva.id)"
-                >
-                  <i class="bi bi-trash"></i>
-                  Borrar
-                </button>
+              <div class="mb-2">
+                <label class="form-label mb-1">Butacas:</label>
+                <input
+                  type="number"
+                  min="1"
+                  max="8"
+                  v-model.number="editForm.cantidadButacas"
+                  class="form-control form-control-sm"
+                />
+              </div>
+              <div class="d-flex gap-2 justify-content-end">
+                <button class="btn btn-success btn-sm" @click="guardarEdicion(reserva.id)">Guardar</button>
+                <button class="btn btn-secondary btn-sm" @click="cancelarEdicion">Cancelar</button>
               </div>
             </div>
           </div>
+          <ReservaCard
+            v-else
+            :reserva="reserva"
+            @editar="editarReserva"
+            @borrar="borrarReserva"
+          />
         </div>
       </div>
 
@@ -79,10 +60,12 @@
 <script>
 import ServicioReservas from '../Servicios/servicioReserva';
 import { useAuthStore } from '../Stores/authStore';
+import ReservaCard from './ReservaCard.vue';
 
 export default
 {
   name: 'Reservas',
+  components: { ReservaCard },
   data()
   {
     return {
