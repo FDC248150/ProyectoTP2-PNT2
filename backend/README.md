@@ -26,11 +26,7 @@ El backend de este proyecto está desarrollado en Node.js con Express, Sequelize
    - Actualizá las credenciales en `config/config.js`
 5. Inicia el servidor backend:
    ```
-   npm run dev
-   ```
-   o
-   ```
-   node server.js
+   node start app.js
    ```
 6. El backend se ejecutará por defecto en [http://localhost:3060](http://localhost:3060).
 
