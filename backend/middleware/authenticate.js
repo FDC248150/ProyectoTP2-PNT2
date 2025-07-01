@@ -15,7 +15,13 @@ export async function authenticate(req, res, next) {
     const payload = jwt.verify(token, JWT_SECRET);
     const user = await User.findByPk(payload.id, { include: Role });
     if (!user) return res.status(401).json({ error: "Usuario no encontrado" });
-    req.user = user;
+    req.user = {
+      id: user.id,
+      nombre: user.nombre,
+      apellido: user.apellido,
+      email: user.email,
+      role: user.Role.nombre 
+    };
     next();
   } catch (err) {
     // Si el token es inválido o expiró, responde con 401

@@ -46,7 +46,7 @@ export async function loginUsuarioService(email, password) {
 
   // Genera un token JWT con el ID y el rol del usuario
   const token = jwt.sign(
-    { id: user.id, role: user.Role.role, roleName: user.Role.role },
+    { id: user.id, roleName: user.Role.nombre },
     JWT_SECRET,
     { expiresIn: "8h" }
   );
@@ -59,7 +59,7 @@ export async function loginUsuarioService(email, password) {
       nombre: user.nombre,
       apellido: user.apellido,
       email: user.email,
-      role: user.Role.role,
+      roleName: user.Role.nombre,
     },
   };
 }

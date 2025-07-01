@@ -4,7 +4,7 @@ export function authorize(roleName) {
     // Verifica que el usuario esté autenticado
     if (!req.user) return res.status(401).json({ error: "No autenticado" });
     // Verifica que el usuario tenga el rol requerido
-    if (req.user.Role.role !== roleName) {
+    if (req.user.role !== roleName) {
       return res.status(403).json({ error: "No autorizado" });
     }
     next();
