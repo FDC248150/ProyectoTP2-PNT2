@@ -53,6 +53,12 @@ La lista completa y detallada de endpoints está disponible en [ENDPOINTS.md](./
 > **Nota:** Algunos endpoints requieren autenticación mediante JWT.  
 > El token se debe enviar en el header `Authorization: Bearer <token>`.
 
+### ¿Cómo testear los endpoints?
+
+- Puedes usar **Postman**, **Thunder Client** (VSCode) o **cURL** para probar cada endpoint.
+- Primero, registra un usuario y haz login para obtener el token JWT.
+- Usa el token en los endpoints que lo requieran (ver [ENDPOINTS.md](https://www.notion.so/ENDPOINTS.md) para saber cuáles).
+
 ---
 
 ### Notas
