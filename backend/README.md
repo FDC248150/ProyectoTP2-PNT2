@@ -38,7 +38,15 @@ El backend de este proyecto está desarrollado en Node.js con Express, Sequelize
 
 ### Uso del API RESTful
 
-El backend expone endpoints RESTful para gestionar los recursos principales. 
+El backend expone endpoints RESTful para gestionar los recursos principales.
+
+**IMPORTANTE:**  
+Todos los endpoints deben ser llamados anteponiendo el puerto del servidor backend.  
+Por ejemplo, si el backend corre en el puerto 3060, la URL completa será:
+
+```
+http://localhost:3060/api/usuarios/registro
+```
 
 La lista completa y detallada de endpoints está disponible en [ENDPOINTS.md](./ENDPOINTS.md).
 

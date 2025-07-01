@@ -1,7 +1,15 @@
 # Endpoints de la API RESTful
 
 A continuación se detallan todos los endpoints disponibles, agrupados por recurso/componente.  
+
 **IMPORTANTE:**  
+Todos los endpoints deben ser llamados anteponiendo el puerto del servidor backend.  
+Por ejemplo, si el backend corre en el puerto 3060, la URL completa será:
+
+```
+http://localhost:3060/api/usuarios/registro
+```
+
 - Los endpoints marcados con 🔒 requieren autenticación mediante JWT (token en el header `Authorization: Bearer <token>`).
 - Los endpoints marcados con 🛡️ requieren además permisos de administrador.
 
@@ -161,4 +169,4 @@ A continuación se detallan todos los endpoints disponibles, agrupados por recur
 
 > **Leyenda:**  
 > 🔒 Requiere autenticación (token JWT)  
-> 🛡️ Requiere permisos de administrador
+> 🛡️ Requiere permisos
