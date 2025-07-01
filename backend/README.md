@@ -22,7 +22,7 @@ El backend de este proyecto está desarrollado en Node.js con Express, Sequelize
    npm install
    ```
 4. Configura la base de datos MySQL:
-   - Crea una base de datos llamada `cine_db`
+   - Crea una base de datos llamada `cine_db` con el comando `create database cine_db`
    - Actualizá las credenciales en `config/config.js`
 5. Inicia el servidor backend:
    ```
