@@ -1,15 +1,22 @@
-import { DataTypes as DT } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import connection from "../connection/connection.js";
 
-const Role = connection.define(
-  "Role",
+// Modelo que representa un rol de usuario 
+class Role extends Model {}
+
+Role.init(
   {
-    role: {
-      type: DT.STRING(),
+    
+    nombre: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
   },
   {
-    timestamps: false,
+    sequelize: connection, // Conexión a la base de datos
+    modelName: "Role",     
+    timestamps: false,     
   }
 );
 

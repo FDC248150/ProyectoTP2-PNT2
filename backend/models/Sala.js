@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import connection from "../connection/connection.js";
 
+// Modelo que representa una sala de cine
 class Sala extends Model {}
 
 Sala.init(
@@ -16,7 +17,7 @@ Sala.init(
     },
   },
   {
-    sequelize: connection,
+    sequelize: connection, // Conexión a la base de datos
     modelName: "Sala",
     timestamps: false,
   }

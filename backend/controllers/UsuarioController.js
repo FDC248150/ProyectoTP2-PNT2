@@ -1,3 +1,4 @@
+// Importa los servicios que interactúan con el modelo Usuario
 import {
   getAllUsuariosService,
   getUsuarioByIdService,
@@ -7,6 +8,8 @@ import {
   loginUsuarioService
 } from "../services/UsuarioService.js";
 
+// Controlador para obtener todos los usuarios
+// GET /api/usuarios
 export const getAllUsuarios = async (req, res) => {
   try {
     const usuarios = await getAllUsuariosService();
@@ -16,6 +19,8 @@ export const getAllUsuarios = async (req, res) => {
   }
 };
 
+// Controlador para obtener un usuario por ID
+// GET /api/usuarios/:id
 export const getUsuarioById = async (req, res) => {
   try {
     const usuario = await getUsuarioByIdService(req.params.id);
@@ -26,6 +31,8 @@ export const getUsuarioById = async (req, res) => {
   }
 };
 
+// Controlador para crear un nuevo usuario (registro)
+// POST /api/usuarios
 export const createUsuario = async (req, res) => {
   try {
     const usuario = await createUsuarioService(req.body);
@@ -35,6 +42,8 @@ export const createUsuario = async (req, res) => {
   }
 };
 
+// Controlador para actualizar un usuario existente
+// PUT /api/usuarios/:id
 export const updateUsuario = async (req, res) => {
   try {
     const usuario = await updateUsuarioService(req.params.id, req.body);
@@ -45,6 +54,8 @@ export const updateUsuario = async (req, res) => {
   }
 };
 
+// Controlador para eliminar un usuario
+// DELETE /api/usuarios/:id
 export const deleteUsuario = async (req, res) => {
   try {
     const usuario = await deleteUsuarioService(req.params.id);
@@ -55,12 +66,15 @@ export const deleteUsuario = async (req, res) => {
   }
 };
 
+// Controlador para login de usuario
+// POST /api/usuarios/login
 export const loginUsuario = async (req, res) => {
   const { email, password } = req.body;
   try {
+    // Llama al servicio de login con email y password
     const result = await loginUsuarioService(email, password);
     if (!result) return res.status(401).json({ error: "Credenciales inválidas" });
-    res.json(result);
+    res.json(result); // Devuelve el token y datos del usuario autenticado
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

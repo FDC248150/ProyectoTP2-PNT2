@@ -1,6 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import connection from "../connection/connection.js";
 
+// Modelo que representa un género de película
 class Genero extends Model {}
 
 Genero.init(
@@ -12,7 +13,7 @@ Genero.init(
     },
   },
   {
-    sequelize: connection,
+    sequelize: connection, // Conexión a la base de datos
     modelName: "Genero",
     timestamps: false,
   }

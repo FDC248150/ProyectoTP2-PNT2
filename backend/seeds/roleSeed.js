@@ -1,13 +1,15 @@
 import { Role } from "../models/index.js";
 
+// Seed para poblar la tabla Role con los roles básicos si no existen
 const roleSeed = async () => {
   try {
-    // Check if roles already exist
+    // Verifica si ya existen roles en la tabla
     const count = await Role.count();
     if (count === 0) {
+      // Si no existen, crea los roles "admin" y "user"
       await Role.bulkCreate([
-        { role: "admin" },
-        { role: "user" }
+        { nombre: "admin" },
+        { nombre: "user" }
       ]);
       console.log("Roles creados correctamente");
     } else {

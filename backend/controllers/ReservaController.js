@@ -1,3 +1,4 @@
+// Importa los servicios que interactúan con el modelo Reserva
 import {
   getAllReservasService,
   getReservaByIdService,
@@ -6,6 +7,8 @@ import {
   deleteReservaService
 } from "../services/ReservaService.js";
 
+// Controlador para obtener todas las reservas
+// GET /api/reservas
 export const getAllReservas = async (req, res) => {
   try {
     const reservas = await getAllReservasService();
@@ -15,6 +18,8 @@ export const getAllReservas = async (req, res) => {
   }
 };
 
+// Controlador para obtener una reserva por ID
+// GET /api/reservas/:id
 export const getReservaById = async (req, res) => {
   try {
     const reserva = await getReservaByIdService(req.params.id);
@@ -25,6 +30,8 @@ export const getReservaById = async (req, res) => {
   }
 };
 
+// Controlador para crear una nueva reserva
+// POST /api/reservas
 export const createReserva = async (req, res) => {
   try {
     const reserva = await createReservaService(req.body);
@@ -34,6 +41,8 @@ export const createReserva = async (req, res) => {
   }
 };
 
+// Controlador para actualizar una reserva existente
+// PUT /api/reservas/:id
 export const updateReserva = async (req, res) => {
   try {
     const reserva = await updateReservaService(req.params.id, req.body);
@@ -44,6 +53,8 @@ export const updateReserva = async (req, res) => {
   }
 };
 
+// Controlador para eliminar una reserva
+// DELETE /api/reservas/:id
 export const deleteReserva = async (req, res) => {
   try {
     const reserva = await deleteReservaService(req.params.id);

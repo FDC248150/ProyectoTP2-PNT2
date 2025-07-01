@@ -7,6 +7,7 @@ import Sala from "./Sala.js";
 import Funcion from "./Funcion.js";
 import Reserva from "./Reserva.js";
 
+// Define las relaciones entre los modelos
 Role.hasMany(User, { foreignKey: "roleId" });
 User.belongsTo(Role, { foreignKey: "roleId" });
 
@@ -25,6 +26,7 @@ Reserva.belongsTo(User, { foreignKey: "usuarioId" });
 Funcion.hasMany(Reserva, { foreignKey: "funcionId" });
 Reserva.belongsTo(Funcion, { foreignKey: "funcionId" });
 
+// Sincroniza los modelos con la base de datos
 export const syncModels = async () => {
   await connection.sync({ force: false });
   console.log("¡Modelos sincronizados!");

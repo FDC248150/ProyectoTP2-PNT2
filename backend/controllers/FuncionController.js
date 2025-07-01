@@ -1,3 +1,4 @@
+// Importa los servicios que interactúan con el modelo Funcion
 import {
   getAllFuncionesService,
   getFuncionByIdService,
@@ -6,6 +7,8 @@ import {
   deleteFuncionService
 } from "../services/FuncionService.js";
 
+// Controlador para obtener todas las funciones
+// GET /api/funciones/
 export const getAllFunciones = async (req, res) => {
   try {
     const funciones = await getAllFuncionesService();
@@ -15,6 +18,8 @@ export const getAllFunciones = async (req, res) => {
   }
 };
 
+// Controlador para obtener una función por su ID
+// GET /api/funciones/:id
 export const getFuncionById = async (req, res) => {
   try {
     const funcion = await getFuncionByIdService(req.params.id);
@@ -25,6 +30,8 @@ export const getFuncionById = async (req, res) => {
   }
 };
 
+// Controlador para crear una nueva función
+// POST /api/funciones
 export const createFuncion = async (req, res) => {
   try {
     const funcion = await createFuncionService(req.body);
@@ -34,8 +41,11 @@ export const createFuncion = async (req, res) => {
   }
 };
 
+// Controlador para actualizar una función existente
+// PUT /api/funciones/:id
 export const updateFuncion = async (req, res) => {
   try {
+  
     const funcion = await updateFuncionService(req.params.id, req.body);
     if (!funcion) return res.status(404).json({ error: "Funcion no encontrada" });
     res.json(funcion);
@@ -44,6 +54,8 @@ export const updateFuncion = async (req, res) => {
   }
 };
 
+// Controlador para eliminar una función
+// DELETE /api/funciones/:id
 export const deleteFuncion = async (req, res) => {
   try {
     const funcion = await deleteFuncionService(req.params.id);
